@@ -1,5 +1,8 @@
 # PowerShell Admin Helpers
 
+[![Release](https://img.shields.io/github/v/release/TychoLoke/powershell-admin-helpers)](https://github.com/TychoLoke/powershell-admin-helpers/releases)
+[![CI](https://img.shields.io/github/actions/workflow/status/TychoLoke/powershell-admin-helpers/powershell-ci.yml?branch=main)](https://github.com/TychoLoke/powershell-admin-helpers/actions/workflows/powershell-ci.yml)
+
 Reusable helper functions for Microsoft admin and automation scripts.
 
 ## Included Helpers
