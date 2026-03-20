@@ -15,9 +15,12 @@ function Ensure-Module {
 function Ensure-OutputDirectory {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $true)]
         [string]$Path
     )
+
+    if ([string]::IsNullOrWhiteSpace($Path)) {
+        return
+    }
 
     if (-not (Test-Path -Path $Path)) {
         New-Item -Path $Path -ItemType Directory -Force | Out-Null
@@ -56,13 +59,32 @@ function Connect-GraphWithScopes {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
-        [string[]]$Scopes
+        [string[]]$Scopes,
+
+        [string]$TenantId
     )
 
-    Ensure-Module -ModuleName Microsoft.Graph
+    Ensure-Module -ModuleName Microsoft.Graph.Authentication
 
-    if (-not (Get-MgContext)) {
-        Connect-MgGraph -Scopes $Scopes -NoWelcome
+    $context = Get-MgContext
+    $missingScopes = @(
+        foreach ($scope in $Scopes) {
+            if (-not $context -or $scope -notin $context.Scopes) {
+                $scope
+            }
+        }
+    )
+
+    if ($missingScopes.Count -gt 0) {
+        if ($context) {
+            Disconnect-MgGraph | Out-Null
+        }
+
+        if ($TenantId) {
+            Connect-MgGraph -TenantId $TenantId -Scopes $Scopes -NoWelcome
+        } else {
+            Connect-MgGraph -Scopes $Scopes -NoWelcome
+        }
     }
 }
 

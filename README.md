@@ -15,6 +15,18 @@ Reusable helper functions for Microsoft admin and automation scripts.
 Import-Module .\PowerShellAdminHelpers\PowerShellAdminHelpers.psd1 -Force
 ```
 
+## Install From GitHub
+
+```powershell
+Invoke-WebRequest `
+  -Uri "https://raw.githubusercontent.com/TychoLoke/powershell-admin-helpers/main/Install-PowerShellAdminHelpers.ps1" `
+  -OutFile "$env:TEMP\Install-PowerShellAdminHelpers.ps1"
+
+& "$env:TEMP\Install-PowerShellAdminHelpers.ps1"
+```
+
+This installs the module into the current user PowerShell module path and imports it for the current session.
+
 ## Example
 
 ```powershell
